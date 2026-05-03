@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Стилізатор Тексту</title>
-    <!-- Підключаємо шрифт з Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Стилізатор Тексту Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -40,6 +39,13 @@
             border-radius: 10px;
             box-sizing: border-box;
             font-size: 16px;
+            outline: none;
+        }
+
+        /* Стиль для преміум-пункту в списку */
+        option.premium-option {
+            color: #d97706;
+            font-weight: bold;
         }
 
         .result-box {
@@ -53,7 +59,7 @@
             align-items: center;
             font-size: 24px;
             color: #1a202c;
-            word-break: break-all;
+            transition: all 0.3s ease;
         }
 
         .copy-btn {
@@ -67,7 +73,6 @@
             cursor: pointer;
             font-weight: bold;
             text-transform: uppercase;
-            transition: background 0.3s;
         }
 
         .copy-btn:hover {
@@ -80,18 +85,15 @@
 <div class="container">
     <h2>Стилізатор Тексту</h2>
     
-    <!-- Поле введення -->
-    <input type="text" id="userInput" placeholder="Введіть текст сюди..." value="Hello World">
+    <input type="text" id="userInput" placeholder="Введіть текст..." value="Hello World">
 
-    <!-- Вибір шрифту -->
     <select id="fontSelector">
-        <option value="'Roboto', sans-serif">Звичайний</option>
+        <option value="'Roboto', sans-serif">Звичайний шрифт</option>
         <option value="'Dancing Script', cursive">Рукописний (Script)</option>
-        <option value="serif">Класичний (Serif)</option>
-        <option value="monospace">Код (Monospace)</option>
+        <!-- Преміум опція -->
+        <option value="premium" class="premium-option">👑 AI Pro Style (Premium)</option>
     </select>
 
-    <!-- Поле результату -->
     <div class="result-box" id="resultDisplay">Hello World</div>
 
     <button class="copy-btn" onclick="copyText()">Скопіювати</button>
@@ -102,22 +104,29 @@
     const fontSelector = document.getElementById('fontSelector');
     const resultDisplay = document.getElementById('resultDisplay');
 
-    // Функція для оновлення результату
+    // Зберігаємо попереднє значення, щоб повернутися до нього, якщо користувач відмовиться від оплати
+    let lastValidFont = fontSelector.value;
+
     function updateDisplay() {
+        if (fontSelector.value === 'premium') {
+            // Перехід на вікно оплати
+            window.location.href = 'payment.html'; 
+            
+            // Повертаємо селект на попереднє значення, щоб він не залишався на "Premium"
+            fontSelector.value = lastValidFont;
+            return;
+        }
+
+        lastValidFont = fontSelector.value;
         resultDisplay.textContent = userInput.value;
         resultDisplay.style.fontFamily = fontSelector.value;
     }
 
-    // Слухаємо зміни в інпуті
     userInput.addEventListener('input', updateDisplay);
-
-    // Слухаємо зміни в селекті (ось тут зазвичай була помилка)
     fontSelector.addEventListener('change', updateDisplay);
 
-    // Функція копіювання
     function copyText() {
-        const text = resultDisplay.textContent;
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(resultDisplay.textContent).then(() => {
             alert('Текст скопійовано!');
         });
     }
