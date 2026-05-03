@@ -2,118 +2,124 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Premium Text Styler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стилізатор Тексту</title>
+    <!-- Підключаємо шрифт з Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f4f8; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh; align-items: center; }
-        .card { background: white; padding: 30px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; position: relative; }
-        
-        #display { width: 100%; padding: 25px; font-size: 22px; border: 2px solid #6366f1; border-radius: 16px; margin: 20px 0; background: #fdfdff; min-height: 60px; word-wrap: break-word; box-sizing: border-box; }
-
-        input, select { width: 100%; padding: 15px; font-size: 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; outline: none; box-sizing: border-box; }
-        
-        button { width: 100%; padding: 18px; background: #6366f1; color: white; border: none; border-radius: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #4f46e5; }
-
-        /* Стиль для преміум-опцій у списку */
-        .premium-opt { color: #d97706; font-weight: bold; }
-
-        /* Модальне вікно (Popup) */
-        .modal-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; 
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .modal { 
-            background: white; padding: 30px; border-radius: 20px; max-width: 400px; width: 90%; 
-            text-align: center; animation: slideUp 0.3s ease; 
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 400px;
+            text-align: center;
         }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        .price { font-size: 32px; font-weight: bold; color: #10b981; margin: 15px 0; }
-        .features { text-align: left; margin: 20px 0; font-size: 14px; color: #4b5563; }
-        .pay-btn { background: #d97706; margin-bottom: 10px; }
-        .close-btn { background: #94a3b8; font-size: 14px; padding: 10px; }
+
+        h2 {
+            color: #1a202c;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #1a202c;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background-color: #4f46e5;
+        }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2 style="color: #1e293b;">Стилізатор Тексту</h2>
+<div class="container">
+    <h2>Стилізатор Тексту</h2>
     
-    <input type="text" id="userInput" placeholder="Введіть текст..." value="Hello World">
-    
-    <select id="styleSelect" onchange="checkPremium()">
-        <option value="normal">Звичайний</option>
-        <option value="bold">Жирний (𝐁𝐨𝐥𝐝)</option>
-        <option value="script">Рукописний (𝓢𝓬𝓻𝓲𝓹𝓽)</option>
-        <option value="double">Подвійний (𝔻𝕠𝕦𝕓𝕝𝕖)</option>
-        <!-- Преміум шрифти -->
-        <option value="premium_magic" class="premium-opt">👑 Magic Sparkle (Premium)</option>
-        <option value="premium_ai" class="premium-opt">👑 AI Pro Style (Premium)</option>
+    <!-- Поле введення -->
+    <input type="text" id="userInput" placeholder="Введіть текст сюди..." value="Hello World">
+
+    <!-- Вибір шрифту -->
+    <select id="fontSelector">
+        <option value="'Roboto', sans-serif">Звичайний</option>
+        <option value="'Dancing Script', cursive">Рукописний (Script)</option>
+        <option value="serif">Класичний (Serif)</option>
+        <option value="monospace">Код (Monospace)</option>
     </select>
 
-    <div id="display">Hello World</div>
+    <!-- Поле результату -->
+    <div class="result-box" id="resultDisplay">Hello World</div>
 
-    <button onclick="copyResult()">СКОПІЮВАТИ</button>
-</div>
-
-<!-- Вікно оплати -->
-<div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-        <div style="font-size: 40px;">👑</div>
-        <h3>Активувати Premium?</h3>
-        <div class="price">$1.00</div>
-        <div class="features">
-            • <b>Унікальні шрифти:</b> Доступ до 10+ ексклюзивних стилів.<br>
-            • <b>ШІ-помічник:</b> Підбере ідеальний шрифт саме для вашого ніку.<br>
-            • <b>Без реклами:</b> Чистий інтерфейс назавжди.
-        </div>
-        <button class="pay-btn" onclick="openPayment()">ОПЛАТИТИ ЗАРАЗ</button>
-        <button class="close-btn" onclick="closeModal()">Можливо пізніше</button>
-    </div>
+    <button class="copy-btn" onclick="copyText()">Скопіювати</button>
 </div>
 
 <script>
-    const maps = {
-        bold: { a: "𝐚", b: "𝐛", c: "𝐜", d: "𝐝", e: "𝐞", f: "𝐟", g: "𝐠", h: "𝐡", i: "𝐢", j: "𝐣", k: "𝐤", l: "𝐥", m: "𝐦", n: "𝐧", o: "𝐨", p: "𝐩", q: "𝐪", r: "𝐫", s: "𝐬", t: "𝐭", u: "𝐮", v: "𝐯", w: "𝐰", x: "𝐱", y: "𝐲", z: "𝐳", A: "𝐀", B: "𝐁", C: "𝐂", D: "𝐃", E: "𝐄", F: "𝐅", G: "𝐆", H: "𝐇", I: "𝐈", J: "𝐉", K: "𝐊", L: "𝐋", M: "𝐌", N: "𝐍", O: "𝐎", P: "𝐏", Q: "𝐐", R: "𝐑", S: "𝐒", T: "𝐓", U: "𝐔", V: "𝐕", W: "𝐖", X: "𝐗", Y: "𝐘", Z: "𝐙" },
-        script: { a: "𝓪", b: "𝓫", c: "𝓬", d: "𝓭", e: "𝓮", f: "𝓯", g: "𝓰", h: "𝓱", i: "𝓲", j: "𝓳", k: "𝓴", l: "𝓵", m: "𝓶", n: "𝓷", o: "𝓸", p: "𝓹", q: "𝓺", r: "𝓻", s: "𝓼", t: "𝓽", u: "𝓾", v: "𝓿", w: "𝔀", x: "𝔁", y: "𝔂", z: "𝔃", A: "𝓐", B: "𝓑", C: "𝓒", D: "𝓓", E: "𝓔", F: "𝓕", G: "𝓖", H: "𝓗", I: "𝓘", J: "𝓙", K: "𝓚", L: "𝓛", M: "𝓜", N: "𝓝", O: "𝓞", P: "𝓟", Q: "𝓠", R: "𝓡", S: "𝓢", T: "𝓣", U: "𝓤", V: "𝓥", W: "𝓦", X: "𝓧", Y: "𝓨", Z: "𝓢" },
-        double: { a: "𝕒", b: "𝕓", c: "𝕔", d: "𝕕", e: "𝕖", f: "𝕗", g: "𝕘", h: "𝕙", i: "𝕚", j: "𝕛", k: "𝕜", l: "𝕝", m: "𝕞", n: "𝕟", o: "𝕠", p: "𝕡", q: "𝕢", r: "𝕣", s: "𝕤", t: "𝕥", u: "𝕦", v: "𝕧", w: "𝕨", x: "𝕩", y: "𝕪", z: "𝕫", A: "𝔸", B: "𝔹", C: "ℂ", D: "𝔻", E: "𝔼", F: "𝔽", G: "𝔾", H: "ℍ", I: "𝕀", J: "𝕁", K: "𝕂", L: "𝕃", M: "𝕄", N: "ℕ", O: "𝕆", P: "ℙ", Q: "ℚ", R: "ℝ", S: "𝕊", T: "𝕋", U: "𝕌", V: "𝕍", W: "𝕎", X: "𝕏", Y: "𝕐", Z: "ℤ" }
-    };
+    const userInput = document.getElementById('userInput');
+    const fontSelector = document.getElementById('fontSelector');
+    const resultDisplay = document.getElementById('resultDisplay');
 
-    const input = document.getElementById('userInput');
-    const select = document.getElementById('styleSelect');
-    const display = document.getElementById('display');
-    const modal = document.getElementById('modalOverlay');
-
-    function update() {
-        const style = select.value;
-        if (style.startsWith('premium')) return; // Не оновлюємо, якщо це преміум
-
-        const text = input.value;
-        display.innerText = (style === 'normal') ? text : text.split('').map(c => maps[style][c] || c).join('');
+    // Функція для оновлення результату
+    function updateDisplay() {
+        resultDisplay.textContent = userInput.value;
+        resultDisplay.style.fontFamily = fontSelector.value;
     }
 
-    function checkPremium() {
-        if (select.value.startsWith('premium')) {
-            modal.style.display = 'flex';
-            select.value = 'normal'; // Повертаємо на звичайний після кліку
-            update();
-        } else {
-            update();
-        }
-    }
+    // Слухаємо зміни в інпуті
+    userInput.addEventListener('input', updateDisplay);
 
-    function closeModal() { modal.style.display = 'none'; }
+    // Слухаємо зміни в селекті (ось тут зазвичай була помилка)
+    fontSelector.addEventListener('change', updateDisplay);
 
-function openPayment() {
-    window.open('ПОСИЛАННЯ_ВІД_WAYFORPAY', '_blank');
-}
-    }
-
-    input.addEventListener('input', update);
-
-    function copyResult() {
-        navigator.clipboard.writeText(display.innerText);
-        alert('Скопійовано!');
+    // Функція копіювання
+    function copyText() {
+        const text = resultDisplay.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Текст скопійовано!');
+        });
     }
 </script>
 
