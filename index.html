@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Стилізатор Тексту Pro</title>
-    <!-- Підключення шрифтів -->
+    <!-- Підключення зовнішніх шрифтів -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&family=Pacifico&family=Lobster&family=Monoton&display=swap" rel="stylesheet">
     
-    <!-- Шлях до CSS у папці css -->
+    <!-- ВАЖЛИВО: Шлях до CSS у папці css -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
     
     <input type="text" id="userInput" placeholder="Введіть текст..." value="Hello World">
 
-    <!-- ШІ-помічник (під інпутом) -->
+    <!-- Блок ШІ-помічника -->
     <div class="ai-assistant">
         <div class="ai-status">✨ ШІ аналізує ваш текст...</div>
         <div id="aiSuggestion" class="ai-suggestion">Чекаю на ваш текст...</div>
@@ -40,7 +40,7 @@
     <button class="copy-btn" onclick="copyText()">Скопіювати</button>
 </div>
 
-<!-- Шлях до JS у папці js -->
+<!-- ВАЖЛИВО: Шлях до JS у папці js -->
 <script src="js/script.js"></script>
 
 </body>
