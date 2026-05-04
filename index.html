@@ -18,7 +18,6 @@
         <div class="ai-header">
             <div class="ai-status">✨ ШІ аналізує текст...</div>
             <label class="switch">
-                <!-- За замовчуванням вимкнено та заблоковано -->
                 <input type="checkbox" id="aiToggle" disabled>
                 <span class="slider round"></span>
             </label>
@@ -27,12 +26,12 @@
     </div>
 
     <select id="fontSelector">
-        <option value="'Roboto', sans-serif">Звичайний шрифт</option>
-        <option value="'Dancing Script', cursive">Рукописний (Script)</option>
-        <option value="'Pacifico', cursive">Грайливий (Pacifico)</option>
-        <option value="'Lobster', cursive">Ретро стиль (Lobster)</option>
-        <option value="'Caveat', cursive">👑 Елегантний (Premium)</option>
-        <option value="'Monoton', cursive">👑 Неоновий (Premium)</option>
+        <option value="normal">Звичайний шрифт</option>
+        <option value="script">Рукописний (Script)</option>
+        <option value="bold">Жирний (Bold Unicode)</option>
+        <option value="italic">Курсив (Italic Unicode)</option>
+        <option value="premium1">👑 Елегантний (Premium)</option>
+        <option value="premium2">👑 Готичний (Premium)</option>
     </select>
 
     <div class="premium-row" onclick="location.href='payment.html'">
@@ -45,6 +44,5 @@
 </div>
 
 <script src="js/script.js"></script>
-
 </body>
 </html>
