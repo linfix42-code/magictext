@@ -6,6 +6,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    transition: border 0.3s ease; /* Для режиму розробника */
 }
 
 .container {
@@ -21,6 +22,8 @@ body {
 h2 { 
     margin-bottom: 30px; 
     color: #1a202c; 
+    cursor: pointer;
+    user-select: none;
 }
 
 input, select {
@@ -30,7 +33,7 @@ input, select {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     font-size: 16px;
-    box-sizing: border-box; /* Запобігає виходу за межі контейнера */
+    box-sizing: border-box;
 }
 
 .ai-assistant {
@@ -80,12 +83,10 @@ input, select {
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
-    transition: background 0.3s;
+    transition: 0.3s;
 }
 
-.copy-btn:hover { 
-    background: #4f46e5; 
-}
+.copy-btn:hover { background: #4f46e5; }
 
 .premium-row {
     color: #d97706;
@@ -93,5 +94,4 @@ input, select {
     cursor: pointer;
     margin-bottom: 15px;
     font-weight: bold;
-    display: block;
 }
