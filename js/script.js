@@ -5,8 +5,20 @@ const aiSuggestion = document.getElementById('aiSuggestion');
 const aiToggle = document.getElementById('aiToggle');
 const aiAssistantBlock = document.getElementById('aiAssistantBlock');
 
-// Логіка підбору від ШІ
+// Перевірка статусу Premium
+const isPremium = () => localStorage.getItem('premiumActive') === 'true';
+
 function runAISuggestion(text) {
+    if (!isPremium()) {
+        aiSuggestion.textContent = "Функція доступна у Premium";
+        aiToggle.checked = false;
+        aiToggle.disabled = true;
+        aiAssistantBlock.classList.add('ai-off');
+        return;
+    }
+
+    aiToggle.disabled = false;
+    
     if (!aiToggle.checked) {
         aiSuggestion.textContent = "Помічник вимкнений";
         aiAssistantBlock.classList.add('ai-off');
@@ -21,7 +33,7 @@ function runAISuggestion(text) {
     }
 
     if (text.length > 20) {
-        aiSuggestion.textContent = "✨ Довга фраза? Звичайний шрифт буде найкращим.";
+        aiSuggestion.textContent = "✨ Довга фраза? 'Roboto' буде найкращим.";
     } else if (text.includes("!") || text.length < 5) {
         aiSuggestion.textContent = "✨ Емоційно! 'Pacifico' додасть настрою.";
     } else if (/[a-zA-Z]/.test(text)) {
@@ -38,13 +50,18 @@ function refresh() {
     runAISuggestion(text);
 }
 
-// Події
+// Подія для кліку по заблокованому блоку ШІ
+aiAssistantBlock.addEventListener('click', (e) => {
+    if (!isPremium()) {
+        alert("ШІ-помічник — це частина Premium доступу! Будь ласка, здійсніть оплату.");
+    }
+});
+
 input.addEventListener('input', refresh);
 aiToggle.addEventListener('change', refresh);
 
 selector.addEventListener('change', () => {
-    const isPremiumActive = localStorage.getItem('premiumActive') === 'true';
-    if (selector.options[selector.selectedIndex].text.includes('👑') && !isPremiumActive) {
+    if (selector.options[selector.selectedIndex].text.includes('👑') && !isPremium()) {
         alert("Цей стиль доступний лише у Premium версії!");
         selector.value = "'Roboto', sans-serif";
     }
@@ -56,9 +73,9 @@ let clickCount = 0;
 document.querySelector('h2').addEventListener('click', () => {
     clickCount++;
     if (clickCount === 5) {
-        const isDev = localStorage.getItem('premiumActive') === 'true';
-        localStorage.setItem('premiumActive', isDev ? 'false' : 'true');
-        alert(isDev ? "🛠 Режим розробника вимкнено" : "🛠 Режим розробника активовано!");
+        const active = isPremium();
+        localStorage.setItem('premiumActive', active ? 'false' : 'true');
+        alert(active ? "🛠 Premium вимкнено" : "🛠 Premium активовано!");
         clickCount = 0;
         location.reload();
     }
