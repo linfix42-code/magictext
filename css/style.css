@@ -1,27 +1,79 @@
-.ai-assistant {
-    background: #f8fafc;
+/* Основні налаштування */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 40px; /* Більше простору */
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+h2 { margin-bottom: 30px; color: #1a202c; }
+
+/* Поля вводу та селектори */
+input, select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 15px;
+    font-size: 16px;
+    box-sizing: border-box; /* Щоб не вилізало за краї */
+}
+
+/* Блок ШІ-помічника */
+.ai-assistant {
+    background: #f8fafc;
+    border: 1px dashed #6366f1; /* Пунктирна лінія для стилю */
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
     text-align: left;
 }
 
-.ai-status {
-    font-size: 11px;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
+.ai-status { font-size: 10px; color: #94a3b8; font-weight: bold; }
+.ai-suggestion { font-size: 14px; color: #4f46e5; margin-top: 5px; }
+
+/* Результат */
+.result-box {
+    margin: 25px 0;
+    padding: 30px;
+    border: 2px solid #7c3aed;
+    border-radius: 20px;
+    font-size: 32px;
+    min-height: 50px;
+    word-wrap: break-word; /* Щоб довгий текст не вилізав */
 }
 
-.ai-suggestion {
+.copy-btn {
+    width: 100%;
+    padding: 15px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.copy-btn:hover { background: #4f46e5; }
+
+.premium-row {
+    color: #d97706;
     font-size: 14px;
-    color: #6366f1;
-    font-weight: 500;
-}
-
-/* Анімація для преміум опцій (якщо захочеш виділити в майбутньому) */
-option:checked {
+    cursor: pointer;
+    margin-bottom: 15px;
     font-weight: bold;
 }
