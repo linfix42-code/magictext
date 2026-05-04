@@ -1,12 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стилізатор Тексту Pro</title>
+    <!-- Підключення шрифтів -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&family=Pacifico&family=Lobster&family=Monoton&display=swap" rel="stylesheet">
+    
+    <!-- Шлях до CSS у папці css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
 <div class="container">
     <h2>Стилізатор Тексту</h2>
     
     <input type="text" id="userInput" placeholder="Введіть текст..." value="Hello World">
 
-    <!-- Блок ШІ-підбору (під інпутом) -->
+    <!-- ШІ-помічник (під інпутом) -->
     <div class="ai-assistant">
         <div class="ai-status">✨ ШІ аналізує ваш текст...</div>
-        <div id="aiSuggestion" class="ai-suggestion">Спробуйте "Рукописний" для цього тексту</div>
+        <div id="aiSuggestion" class="ai-suggestion">Чекаю на ваш текст...</div>
     </div>
 
     <select id="fontSelector">
@@ -14,8 +28,6 @@
         <option value="'Dancing Script', cursive">Рукописний (Script)</option>
         <option value="'Pacifico', cursive">Грайливий (Pacifico)</option>
         <option value="'Lobster', cursive">Ретро стиль (Lobster)</option>
-        <!-- Premium шрифти -->
-        <option value="'Caveat', cursive">👑 Елегантний (Premium)</option>
         <option value="'Monoton', cursive">👑 Неоновий (Premium)</option>
     </select>
 
@@ -24,5 +36,12 @@
     </div>
 
     <div class="result-box" id="resultDisplay">Hello World</div>
+
     <button class="copy-btn" onclick="copyText()">Скопіювати</button>
 </div>
+
+<!-- Шлях до JS у папці js -->
+<script src="js/script.js"></script>
+
+</body>
+</html>
