@@ -1,20 +1,14 @@
-const input = document.getElementById('userInput');
-const selector = document.getElementById('fontSelector');
-const display = document.getElementById('resultDisplay');
-
-function refresh() {
-    display.textContent = input.value || "Введіть текст...";
-    display.style.fontFamily = selector.value;
-}
-
-input.addEventListener('input', refresh);
-selector.addEventListener('change', refresh);
-
 function copyText() {
-    navigator.clipboard.writeText(display.textContent).then(() => {
-        alert('Скопійовано!');
-    });
+    const range = document.createRange();
+    range.selectNode(display); // Вибираємо блок із результатом
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    
+    try {
+        document.execCommand('copy'); // Копіюємо разом із форматуванням
+        alert('Текст скопійовано зі стилем!');
+    } catch (err) {
+        alert('Не вдалося скопіювати стилізований текст');
+    }
+    window.getSelection().removeAllRanges();
 }
-
-// Запуск при старті
-window.onload = refresh;
