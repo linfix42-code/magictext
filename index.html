@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Стилізатор Тексту Pro</title>
-    <!-- Підключення шрифтів -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&family=Pacifico&family=Lobster&family=Monoton&family=Caveat:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Шлях до стилів -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,16 +14,16 @@
     
     <input type="text" id="userInput" placeholder="Введіть текст..." value="Hello World">
 
-    <!-- Оновлений блок ШІ-помічника з перемикачем -->
     <div class="ai-assistant" id="aiAssistantBlock">
         <div class="ai-header">
             <div class="ai-status">✨ ШІ аналізує текст...</div>
             <label class="switch">
-                <input type="checkbox" id="aiToggle" checked>
+                <!-- За замовчуванням вимкнено та заблоковано -->
+                <input type="checkbox" id="aiToggle" disabled>
                 <span class="slider round"></span>
             </label>
         </div>
-        <div id="aiSuggestion" class="ai-suggestion">Чекаю на ваш текст...</div>
+        <div id="aiSuggestion" class="ai-suggestion">Функція доступна у Premium</div>
     </div>
 
     <select id="fontSelector">
@@ -47,7 +44,6 @@
     <button class="copy-btn" onclick="copyText()">Скопіювати</button>
 </div>
 
-<!-- Шлях до скриптів -->
 <script src="js/script.js"></script>
 
 </body>
