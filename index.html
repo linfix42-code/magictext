@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Стилізатор Тексту Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&family=Pacifico&family=Lobster&family=Monoton&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&family=Pacifico&family=Lobster&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,35 +12,35 @@
 <div class="container">
     <h2 title="Натисніть 5 разів для режиму розробника">Стилізатор Тексту</h2>
     
-    <input type="text" id="userInput" placeholder="Введіть текст..." value="Hello World">
-
-    <div class="ai-assistant" id="aiAssistantBlock">
-        <div class="ai-header">
-            <div class="ai-status">✨ ШІ аналізує текст...</div>
-            <label class="switch">
-                <input type="checkbox" id="aiToggle" disabled>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div id="aiSuggestion" class="ai-suggestion">Функція доступна у Premium</div>
-    </div>
+    <input type="text" id="userInput" placeholder="Введіть текст англійською..." value="Cool Text">
 
     <select id="fontSelector">
-        <option value="normal">Звичайний шрифт</option>
-        <option value="script">Рукописний (Script)</option>
-        <option value="bold">Жирний (Bold Unicode)</option>
-        <option value="italic">Курсив (Italic Unicode)</option>
-        <option value="premium1">👑 Елегантний (Premium)</option>
-        <option value="premium2">👑 Готичний (Premium)</option>
+        <optgroup label="Безкоштовні стилі">
+            <option value="normal">Звичайний</option>
+            <option value="bold">Жирний (Bold)</option>
+            <option value="italic">Курсив (Italic)</option>
+            <option value="monospace">Моноширинний</option>
+            <option value="bubble">Бульбашки (Bubble)</option>
+        </optgroup>
+        <optgroup label="Premium Стилі 👑">
+            <option value="premium_script">👑 Рукописний (Script)</option>
+            <option value="premium_gothic">👑 Готичний (Gothic)</option>
+            <option value="premium_double">👑 Подвійний (Double)</option>
+            <option value="premium_circles">👑 Чорні кола (Circles)</option>
+            <option value="premium_squares">👑 Квадрати (Squares)</option>
+            <option value="premium_smallcaps">👑 Малі заголовні (Small Caps)</option>
+        </optgroup>
     </select>
 
     <div class="premium-row" onclick="location.href='payment.html'">
-        <span>👑 Отримати повний доступ</span>
+        <span>👑 Отримати доступ до 50+ преміум стилів</span>
     </div>
 
-    <div class="result-box" id="resultDisplay">Hello World</div>
+    <!-- Тут відображається результат, який можна приміряти -->
+    <div class="result-box" id="resultDisplay">Cool Text</div>
 
-    <button class="copy-btn" onclick="copyText()">Скопіювати</button>
+    <!-- Кнопка, яка стає сірою для преміум-стилів -->
+    <button class="copy-btn" id="copyBtn" onclick="copyText()">Скопіювати для соцмереж</button>
 </div>
 
 <script src="js/script.js"></script>
