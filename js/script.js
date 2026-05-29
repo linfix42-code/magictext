@@ -1,167 +1,48 @@
-// ==========================================================================
-// 1. СТАТУСИ ДОСТУПУ ТА БАЗА ПРОМОКОДІВ
-// ==========================================================================
-let hasAllPremium = false;   // Повний доступ (100 грн)
-let hasPremiumFonts = false; // Тільки шрифти (40 грн)
-let hasPremiumDesign = false; // Тільки оформлення (30 грн)
-
-// Твої секретні коди, які видаватиме Telegram-бот після оплати на картку
-const CODES = {
-    allAccess: "MAX_PRO_999",      
-    fontsOnly: "FONTS_SHERIFF_77",  
-    designOnly: "COOL_LOOK_2026"    
-};
-
-// ==========================================================================
-// 2. СПИСОК ШРИФТІВ (Звичайні та Преміум із коронами)
-// ==========================================================================
-const fontStyles = [
-    { id: "Bold", name: "Bold Text", isPremium: false, transform: (t) => t },
-    { id: "Italic", name: "Italic Text", isPremium: false, transform: (t) => t },
-    { id: "Gothic", name: "Gothic Style", isPremium: true, transform: (t) => toGothic(t) },
-    { id: "Cursive", name: "Cursive Style", isPremium: true, transform: (t) => toCursive(t) },
-    { id: "Boxed", name: "Boxed Text", isPremium: false, transform: (t) => toBoxed(t) },
-    { id: "Circle", name: "Circle Text", isPremium: false, transform: (t) => toCircle(t) },
-    { id: "Magic", name: "Magic Style", isPremium: true, transform: (t) => toMagic(t) }
-];
-
-// ==========================================================================
-// 3. ФУНКЦІЇ МАТЕМАТИЧНОЇ ТРАНСФОРМАЦІЇ ЮНІКОДУ
-// ==========================================================================
-function toGothic(text) {
-    const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const gothic = "𝔞𝔟𝔔𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅𝔖𝔇𝔈𝔉𝔊𝔏𝔓𝔍𝔎𝔏𝔐𝔒𝔒𝔔𝔔𝔖𝔖𝔗𝔘𝔜𝔔𝔛𝔜𝔖";
-    return text.split('').map(c => { const i = normal.indexOf(c); return i > -1 ? gothic[i] : c; }).join('');
-}
-
-function toCursive(text) {
-    const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const cursive = "𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓳𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹 get𝓿𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗滨𝓙𝓚𝓛𝓜𝓝𝓓𝓟𝓤𝓡𝓢𝓣𝓤𝓥𝓦 hearty𝓨𝓩";
-    return text.split('').map(c => { const i = normal.indexOf(c); return i > -1 ? cursive[i] : c; }).join('');
-}
-
-function toBoxed(text) {
-    const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const boxed = "🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉";
-    return text.split('').map(c => { const i = normal.indexOf(c); return i > -1 ? boxed[i] : c; }).join('');
-}
-
-function toCircle(text) {
-    const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const circle = "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻcontentsⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ";
-    return text.split('').map(c => { const i = normal.indexOf(c); return i > -1 ? circle[i] : c; }).join('');
-}
-
-function toMagic(text) {
-    const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const magic = "卂乃匚刀乇下g卄丨ﾌKㄥ爪几ㄖ卩Ҝ尺丂ㄒㄩᐯ山乂ㄚ乙卂乃匚刀乇下g卄丨体Kㄥ爪几ㄖ卩Ҝ尺丂ㄒㄩᐯ山乂ㄚ乙";
-    return text.split('').map(c => { const i = normal.indexOf(c); return i > -1 ? magic[i] : c; }).join('');
-}
-
-// ==========================================================================
-// 4. ГЕНЕРАЦІЯ СМУЖОК ШРИФТІВ ТА КНОПОК "COPY"
-// ==========================================================================
-const inputField = document.getElementById('main-input');
-const container = document.getElementById('fonts-container');
-
-function updateFonts() {
-    const text = inputField.value || "Hello World";
-    container.innerHTML = ""; // Очищення перед оновленням
-
-    fontStyles.forEach(font => {
-        const fontCard = document.createElement('div');
-        fontCard.className = 'font-row-card';
-        
-        const transformedText = font.transform(text);
-        const crown = font.isPremium ? ' <span style="color:#ffd700">👑</span>' : '';
-        
-        fontCard.innerHTML = `
-            <div class="font-row-id">${font.id}${crown}</div>
-            <div class="font-row-body">
-                <div class="font-row-text">${transformedText}</div>
-                <button class="copy-btn">📋 Copy</button>
+// --- БЛОК ЛОГІКИ ПРОМОКОДІВ ТА VIP ТЕМИ ---
+document.addEventListener("DOMContentLoaded", () => {
+    // Шукаємо картку введення тексту, щоб вставити блок промокодів відразу під нею
+    const mainCard = document.querySelector('.main-card');
+    if (mainCard && !document.getElementById('promo-box')) {
+        const promoHTML = `
+            <div id="promo-box" style="background: #ffffff; border: 2px dashed #1abc9c; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.01);">
+                <div style="font-size: 16px; font-weight: bold; color: #117a65; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">👑 Активація PRO-доступу</div>
+                <div style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">Введи секретний промокод від нашого Telegram-бота, щоб розблокувати VIP-функції сайту:</div>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="promo-input" placeholder="Введи свій PRO-код тут..." style="flex: 1; padding: 12px 15px; border: 1px solid #d1f2eb; border-radius: 10px; outline: none; font-size: 14px; background: #fcfdfd;">
+                    <button id="activate-btn" style="background: #1abc9c; color: white; border: none; padding: 0 22px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s;">Активувати 👑</button>
+                </div>
             </div>
         `;
-        
-        // Логіка кліку на кнопку Copy
-        fontCard.querySelector('.copy-btn').addEventListener('click', () => {
-            if (font.isPremium && !hasPremiumFonts) {
-                const goPay = confirm("👑 Цей шрифт доступний лише у PRO-версії. Перейти до нашого Telegram-бота для покупки коду?");
-                if (goPay) {
-                    window.open("https://t.me/YOUR_BOT_USERNAME?start=fonts", "_blank");
-                }
+        mainCard.insertAdjacentHTML('afterend', promoHTML);
+
+        // Обробник натискання кнопки активації
+        document.getElementById('activate-btn').addEventListener('click', () => {
+            const input = document.getElementById('promo-input').value.trim();
+            if (input === "MAX_PRO_999") {
+                localStorage.setItem('vip_design', 'true');
+                alert("👑 Повний Мега-PRO доступ активовано назавжди!");
+                location.reload();
+            } else if (input === "COOL_LOOK_2026") {
+                localStorage.setItem('vip_design', 'true');
+                alert("🎨 VIP-оформлення та темну тему сайту активовано!");
+                location.reload();
             } else {
-                navigator.clipboard.writeText(transformedText);
-                alert(`✨ Скопійовано: ${transformedText}`);
+                alert("❌ Невірний промокод. Спробуй ще раз.");
             }
         });
+    }
 
-        container.appendChild(fontCard);
-    });
-}
-
-// Функція для кліків по швидких тегах під текстовим полем
-function setQuickText(text) {
-    inputField.value = text;
-    updateFonts();
-}
-
-inputField.addEventListener('input', updateFonts);
-
-// ==========================================================================
-// 5. ОБРОБКА ТА АКТИВАЦІЯ ПРОМОКОДІВ
-// ==========================================================================
-document.getElementById('activate-btn').addEventListener('click', () => {
-    const userInput = document.getElementById('promo-input').value.trim();
-    
-    if (userInput === CODES.allAccess) {
-        localStorage.setItem('hasAllPremium', 'true');
-        localStorage.setItem('hasPremiumFonts', 'true');
-        localStorage.setItem('hasPremiumDesign', 'true');
-        alert("👑 Мега-Преміум активовано назавжди! Доступно все оформлення та всі шрифти.");
-        location.reload();
-    } 
-    else if (userInput === CODES.fontsOnly) {
-        localStorage.setItem('hasPremiumFonts', 'true');
-        alert("✨ Преміум шрифти успішно розблоковано!");
-        location.reload();
-    } 
-    else if (userInput === CODES.designOnly) {
-        localStorage.setItem('hasPremiumDesign', 'true');
-        alert("🎨 VIP Оформлення сайту активовано!");
-        location.reload();
-    } 
-    else {
-        alert("❌ Невірний промокод. Спробуй ще раз або купи код у бота.");
+    // Стилі для VIP-теми (якщо активовано код)
+    if (localStorage.getItem('vip_design') === 'true') {
+        const style = document.createElement('style');
+        style.innerHTML = `
+            body { background-color: #0f172a !important; color: #f1f5f9 !important; }
+            .main-card, .font-row-card, .pro-tips-card, #promo-box { background: #1e293b !important; border-color: #334155 !important; color: #ffffff !important; }
+            textarea { background: #0f172a !important; color: #ffffff !important; border-color: #475569 !important; }
+            #activate-btn, .copy-btn { background: #f59e0b !important; color: #1e1b4b !important; }
+            #activate-btn:hover, .copy-btn:hover { background: #d97706 !important; }
+            .quick-tags span { background: #334155 !important; color: #ffffff !important; border-color: #475569 !important; }
+        `;
+        document.head.appendChild(style);
     }
 });
-
-function checkSavedAccess() {
-    if (localStorage.getItem('hasAllPremium') === 'true') {
-        hasAllPremium = true; hasPremiumFonts = true; hasPremiumDesign = true;
-    }
-    if (localStorage.getItem('hasPremiumFonts') === 'true') hasPremiumFonts = true;
-    if (localStorage.getItem('hasPremiumDesign') === 'true') hasPremiumDesign = true;
-
-    // Вмикаємо преміум VIP-тему, якщо активовано код оформлення
-    if (hasPremiumDesign) {
-        document.body.classList.add('vip-theme');
-    }
-}
-
-// Секретний режим розробника (5 кліків на напис "Text Generator")
-let devClicks = 0;
-document.getElementById('dev-trigger').addEventListener('click', () => {
-    devClicks++;
-    if (devClicks === 5) {
-        localStorage.setItem('hasAllPremium', 'true');
-        localStorage.setItem('hasPremiumFonts', 'true');
-        localStorage.setItem('hasPremiumDesign', 'true');
-        alert("🛠️ Режим розробника активовано! Всі VIP функції сайту розблоковано безкоштовно.");
-        location.reload();
-    }
-});
-
-// Запуск при завантаженні сторінки
-checkSavedAccess();
-updateFonts();
