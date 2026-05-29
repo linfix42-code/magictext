@@ -172,7 +172,6 @@
         function checkPromoCode() {
             const input = document.getElementById('promo-input').value.trim();
             
-            // Наші три робочі коди
             if (input === "MAX_PRO_999") {
                 localStorage.setItem('vip_design', 'true');
                 localStorage.setItem('vip_fonts', 'true');
@@ -187,7 +186,7 @@
                 alert("✨ Усі преміум-шрифти успішно розблоковано!");
                 location.reload();
             } else {
-                alert("❌ Невірний промокод. Спробуй ще раз або отримай новий у нашого бота.");
+                alert("❌ Невірний промокод. Спробуй ще раз.");
             }
         }
 
