@@ -1,81 +1,186 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f4f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
-    background: white;
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    width: 100%;
-    max-width: 450px;
+body {
+    background-color: #eef9f6; /* Ніжний м'ятний відтінок фону */
+    color: #333;
+    padding: 20px;
+    transition: all 0.4s ease;
+}
+
+/* Верхній рекламний блок */
+.top-ad-space {
+    background: #f2f9f7;
+    border: 1px dashed #b2e2d8;
     text-align: center;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto 20px auto;
+    color: #7f8c8d;
+    border-radius: 8px;
 }
 
-h2 { margin-bottom: 30px; color: #1a202c; cursor: pointer; user-select: none; transition: 0.3s; }
-h2:hover { color: #6366f1; }
+.ad-sub { font-size: 11px; color: #bdc3c7; margin-top: 4px; }
 
-input, select {
-    width: 100%;
-    padding: 15px;
+/* Навігація */
+.nav-bar {
+    max-width: 1100px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-home { color: #1abc9c; text-decoration: none; font-weight: bold; font-size: 15px; }
+
+.logo { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+.logo-icon { background: #1abc9c; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+.logo-text { font-size: 20px; font-weight: bold; color: #1abc9c; }
+
+/* Двоколонкова розмітка сторінки */
+.main-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 25px;
+}
+
+.sidebar { width: 300px; flex-shrink: 0; }
+.content-area { flex: 1; }
+
+@media(max-width: 850px) {
+    .main-container { flex-direction: column; }
+    .sidebar { width: 100%; }
+}
+
+/* Реклама ліворуч та картка порад */
+.side-ad-space {
+    background: #f2f9f7;
+    border: 1px dashed #b2e2d8;
+    text-align: center;
+    padding: 60px 20px;
+    color: #7f8c8d;
     margin-bottom: 20px;
-    border: 1px solid #e2e8f0;
     border-radius: 12px;
+}
+
+.pro-tips-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2f4f0;
+}
+.pro-tips-card h3 { color: #16a085; margin-bottom: 12px; font-size: 16px; }
+.pro-tips-card ul { list-style: none; }
+.pro-tips-card li { font-size: 13px; color: #566573; margin-bottom: 10px; line-height: 1.4; }
+
+/* Головні робочі карти (Enter Your Text) */
+.main-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid #e2f4f0;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+}
+
+.card-header-title { font-weight: bold; font-size: 18px; margin-bottom: 15px; color: #2c3e50; }
+
+textarea {
+    width: 100%;
+    height: 120px;
+    border: 2px solid #a3e4d7;
+    border-radius: 12px;
+    padding: 15px;
     font-size: 16px;
     outline: none;
-    transition: 0.3s;
+    resize: none;
+    transition: border-color 0.2s;
 }
+textarea:focus { border-color: #1abc9c; }
 
-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
-
-.result-box {
-    margin: 25px 0;
-    padding: 30px;
-    border: 2px solid #7c3aed;
+.quick-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+.quick-tags span {
+    font-size: 13px;
+    border: 1px solid #d1f2eb;
+    padding: 5px 12px;
     border-radius: 20px;
-    font-size: 28px;
-    min-height: 80px;
-    word-wrap: break-word;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.3s;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s;
 }
+.quick-tags span:hover { background: #1abc9c; color: white; border-color: #1abc9c; }
+
+/* БЛОК ПРОМОКОДІВ (Гарна рамка під інпутом) */
+.promo-box {
+    background: #ffffff;
+    border: 2px dashed #1abc9c;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.promo-box h3 { font-size: 16px; margin-bottom: 5px; color: #117a65; }
+.promo-box p { font-size: 13px; color: #7f8c8d; margin-bottom: 15px; }
+.promo-input-group { display: flex; gap: 10px; }
+#promo-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 8px; outline: none; font-size: 14px; }
+#activate-btn { background: #1abc9c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+#activate-btn:hover { background: #16a085; }
+
+/* Секція списку шрифтів */
+.fonts-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 5px; }
+.fonts-section-header h2 { font-size: 20px; color: #16a085; }
+.styles-badge { background: #d1f2eb; color: #16a085; font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: bold; }
+
+/* Смужка шрифту з кнопкою "Copy" праворуч */
+.font-row-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e2f4f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+
+.font-row-id { font-size: 12px; color: #95a5a6; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px; }
+.font-row-body { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+.font-row-text { font-size: 18px; font-weight: 600; color: #2c3e50; word-break: break-all; }
 
 .copy-btn {
-    width: 100%;
-    padding: 18px;
-    background: #6366f1;
+    background: #1abc9c;
     color: white;
     border: none;
-    border-radius: 12px;
+    padding: 8px 18px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 16px;
-    transition: 0.4s;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: background 0.2s;
 }
+.copy-btn:hover { background: #16a085; }
 
-.copy-btn:hover:not(:disabled) { background: #4f46e5; transform: translateY(-2px); }
-
-/* Стан для заблокованої кнопки */
-.copy-btn:disabled {
-    background: #cbd5e1;
-    cursor: not-allowed;
-    opacity: 0.8;
+/* ==========================================================================
+   💥 СУПЕР ПРЕМІУМ VIP-ТЕМА (Темний космічний космос для 3-го промокоду)
+   ========================================================================== */
+body.vip-theme {
+    background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    color: #f1f5f9;
 }
-
-.premium-row {
-    color: #d97706;
-    font-size: 13px;
-    cursor: pointer;
-    margin-bottom: 15px;
-    font-weight: bold;
-    text-decoration: underline;
+body.vip-theme .main-card, body.vip-theme .font-row-card, body.vip-theme .pro-tips-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
 }
+body.vip-theme .font-row-text { color: #ffffff; }
+body.vip-theme .card-header-title, body.vip-theme .fonts-section-header h2 { color: #f59e0b; }
+body.vip-theme textarea { background: #0f172a; color: white; border-color: #475569; }
+body.vip-theme textarea:focus { border-color: #f59e0b; }
+body.vip-theme .promo-box { background: #1e293b; border-color: #f59e0b; }
+body.vip-theme .copy-btn, body.vip-theme #activate-btn { background: #f59e0b; color: #1e1b4b; }
+body.vip-theme .copy-btn:hover, body.vip-theme #activate-btn:hover { background: #d97706; }
+body.vip-theme .quick-tags span { background: #334155; color: white; border-color: #475569; }
+body.vip-theme .quick-tags span:hover { background: #f59e0b; color: #1e1b4b; }
