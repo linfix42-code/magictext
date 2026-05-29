@@ -1,55 +1,91 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <!-- Назва, яку побачать у месенджерах -->
-<meta property="og:title" content="Стильні Шрифти для Instagram">
-<!-- Опис під назвою -->
-<meta property="og:description" content="Створюй круті нікнейми та копіюй їх в один клік!">
-<!-- Картинка-прев'ю (якщо є) -->
-<meta property="og:image" content="https://твій-сайт.com/preview.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Стилізатор Тексту Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <title>Text Stylizer | Створюй круті шрифти</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h2 title="Натисніть 5 разів для режиму розробника">Стилізатор Тексту</h2>
-    
-    <input type="text" id="userInput" placeholder="Введіть текст (латиницею)..." value="Cool Nickname">
+    <header>
+        <div class="header-container">
+            <div class="logo" id="dev-trigger">
+                <span class="logo-icon">🇹</span>
+                <span class="logo-text">TextStylizer</span>
+            </div>
+            <button class="nav-btn" onclick="window.open('https://t.me/YOUR_BOT_USERNAME', '_blank')">🤖 Наш Бот</button>
+        </div>
+    </header>
 
-    <select id="fontSelector">
-        <optgroup label="Безкоштовні стилі">
-            <option value="normal">Звичайний</option>
-            <option value="bold">Жирний (Bold)</option>
-            <option value="italic">Курсив (Italic)</option>
-            <option value="bold_italic">Жирний Курсив</option>
-            <option value="monospace">Друкарська машинка</option>
-            <option value="bubble">Бульбашки (Bubble)</option>
-        </optgroup>
-        <optgroup label="Premium Стилі 👑">
-            <option value="premium_script">👑 Рукописний (Script)</option>
-            <option value="premium_script_bold">👑 Жирний Рукопис</option>
-            <option value="premium_gothic">👑 Готичний (Gothic)</option>
-            <option value="premium_double">👑 Подвійний (Double)</option>
-            <option value="premium_circles">👑 Чорні кола</option>
-            <option value="premium_squares">👑 Квадрати</option>
-            <option value="premium_smallcaps">👑 Малі заголовні</option>
-            <option value="premium_medieval">👑 Середньовічний</option>
-        </optgroup>
-    </select>
+    <main>
+        <section class="hero">
+            <div class="emoji-badge">🎭</div>
+            <h1>Make Your Text <span class="pop-text">POP</span> ✨</h1>
+            <p class="subtitle">Turn boring text into <span class="highlight">fancy fonts</span> and <span class="highlight">emoji art</span></p>
+            
+            <div class="input-container">
+                <input type="text" id="main-input" placeholder="Введіть свій текст сюди...">
+            </div>
+        </section>
 
-    <div class="premium-row" onclick="location.href='payment.html'">
-        <span>👑 Отримати доступ до всіх стилів</span>
-    </div>
+        <section class="preview-section">
+            <div class="main-card">
+                <div class="card-header">
+                    <span>🪄 Live Magic Preview ✨</span>
+                </div>
+                
+                <div id="fonts-container" class="fonts-grid"></div>
+                
+                <p class="card-footer">👉 Клікніть на будь-який шрифт, щоб скопіювати його!</p>
+            </div>
+        </section>
 
-    <div class="result-box" id="resultDisplay">Cool Nickname</div>
+        <section class="promo-activation-section">
+            <div class="promo-box">
+                <h3>👑 Активація PRO-доступу</h3>
+                <p>Введи промокод, який ти отримав у нашому боті, щоб зняти обмеження:</p>
+                <div class="promo-input-group">
+                    <input type="text" id="promo-input" placeholder="Введи свій код тут...">
+                    <button id="activate-btn">Активувати 👑</button>
+                </div>
+            </div>
+        </section>
 
-    <button class="copy-btn" id="copyBtn" onclick="copyText()">Скопіювати для соцмереж</button>
-</div>
+        <section class="pricing-section">
+            <h2>💎 Отримати PRO версію 💎</h2>
+            <p>Обери свій варіант та активуй магію в один клік через нашого Telegram-бота!</p>
+            
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Тільки Шрифти</h3>
+                    <p class="price">40 грн</p>
+                    <p class="description">Відкриває понад 30 нових унікальних VIP-стилів тексту</p>
+                    <a href="https://t.me/YOUR_BOT_USERNAME?start=fonts" target="_blank" class="buy-btn">Купити у Бота 🤖</a>
+                </div>
 
-<script src="js/script.js"></script>
+                <div class="price-card premium">
+                    <div class="badge">🔥 ВСЕ РАЗОМ</div>
+                    <h3>🔥 МЕГА PRO</h3>
+                    <p class="price">100 грн</p>
+                    <p class="description">Усі преміум шрифти + ВІП супер-оформлення сайту назавжди!</p>
+                    <a href="https://t.me/YOUR_BOT_USERNAME?start=all" target="_blank" class="buy-btn gold">Купити у Бота 👑</a>
+                </div>
+
+                <div class="price-card">
+                    <h3>Гарний Дизайн</h3>
+                    <p class="price">30 грн</p>
+                    <p class="description">Унікальна темна космічна VIP-тема та анімації для сайту</p>
+                    <a href="https://t.me/YOUR_BOT_USERNAME?start=design" target="_blank" class="buy-btn">Купити у Бота 🤖</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 textstylizer.com. Усі права захищені.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
