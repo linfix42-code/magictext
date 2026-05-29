@@ -1,10 +1,104 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Generator | Text Stylizer</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .promo-box {
+            background: #ffffff;
+            border: 2px dashed #1abc9c;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+            transition: all 0.3s ease;
+        }
+        .promo-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #117a65;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .promo-desc {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .promo-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        #promo-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #d1f2eb;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            background: #fcfdfd;
+        }
+        #promo-input:focus {
+            border-color: #1abc9c;
+            background: #fff;
+        }
+        #activate-btn {
+            background: #1abc9c;
+            color: white;
+            border: none;
+            padding: 0 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        #activate-btn:hover {
+            background: #16a085;
+        }
+
+        /* Стилі для темної VIP теми, якщо активовано код */
+        body.vip-theme {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        body.vip-theme .main-card, 
+        body.vip-theme .font-row-card, 
+        body.vip-theme .pro-tips-card,
+        body.vip-theme .promo-box {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #ffffff !important;
+        }
+        body.vip-theme textarea {
+            background: #0f172a !important;
+            color: #ffffff !important;
+            border-color: #475569 !important;
+        }
+        body.vip-theme .promo-title {
+            color: #f59e0b !important;
+        }
+        body.vip-theme #activate-btn,
+        body.vip-theme .copy-btn {
+            background: #f59e0b !important;
+            color: #1e1b4b !important;
+        }
+        body.vip-theme #activate-btn:hover,
+        body.vip-theme .copy-btn:hover {
+            background: #d97706 !important;
+        }
+        body.vip-theme .quick-tags span {
+            background: #334155 !important;
+            color: #ffffff !important;
+            border-color: #475569 !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,7 +109,7 @@
 
     <div class="nav-bar">
         <a href="index.html" class="back-home">⬅ Back to Home</a>
-        <div class="logo" id="dev-trigger">
+        <div class="logo">
             <span class="logo-icon">🇹</span>
             <span class="logo-text">Text Generator</span>
         </div>
@@ -55,11 +149,11 @@
             </div>
 
             <div class="promo-box">
-                <h3>👑 Активація PRO-доступу</h3>
-                <p>Введи промокод від нашого бота, щоб зняти обмеження зі шрифтів та дизайну сайту:</p>
+                <div class="promo-title">👑 Активація PRO-доступу</div>
+                <div class="promo-desc">Введи секретний промокод від нашого Telegram-бота, щоб розблокувати VIP-функції сайту:</div>
                 <div class="promo-input-group">
                     <input type="text" id="promo-input" placeholder="Введи свій PRO-код тут...">
-                    <button id="activate-btn">Активувати 👑</button>
+                    <button id="activate-btn" onclick="checkPromoCode()">Активавати 👑</button>
                 </div>
             </div>
 
@@ -68,11 +162,41 @@
                 <span class="styles-badge">10 Styles Available</span>
             </div>
 
-            <div id="fonts-container"></div>
+            <div id="fonts-container">
+                </div>
 
         </section>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function checkPromoCode() {
+            const input = document.getElementById('promo-input').value.trim();
+            
+            // Наші три робочі коди
+            if (input === "MAX_PRO_999") {
+                localStorage.setItem('vip_design', 'true');
+                localStorage.setItem('vip_fonts', 'true');
+                alert("👑 Повний Мега-PRO доступ активовано назавжди!");
+                location.reload();
+            } else if (input === "COOL_LOOK_2026") {
+                localStorage.setItem('vip_design', 'true');
+                alert("🎨 VIP-оформлення та темну тему сайту активовано!");
+                location.reload();
+            } else if (input === "FONTS_SHERIFF_77") {
+                localStorage.setItem('vip_fonts', 'true');
+                alert("✨ Усі преміум-шрифти успішно розблоковано!");
+                location.reload();
+            } else {
+                alert("❌ Невірний промокод. Спробуй ще раз або отримай новий у нашого бота.");
+            }
+        }
+
+        // Перевірка активації при завантаженні сторінки
+        if (localStorage.getItem('vip_design') === 'true') {
+            document.body.classList.add('vip-theme');
+        }
+    </script>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
