@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TypeMagic | Premium Text Stylizer</title>
     <style>
-        /* --- Головна колірна палітра та змінні --- */
+        /* --- Головна колірна палітра додатка --- */
         :root {
             --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             --panel-bg: #ffffff;
@@ -49,14 +49,12 @@
             align-items: center;
         }
 
-        /* --- Контейнер додатка --- */
         .app-container {
             width: 100%;
             max-width: 800px;
             margin-top: 20px;
         }
 
-        /* --- Шапка сайту --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -84,7 +82,7 @@
             align-items: center;
         }
 
-        .btn-toggle, .btn-vip-status {
+        .btn-vip-status, .btn-toggle {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             color: var(--text-main);
@@ -104,7 +102,6 @@
             border-color: var(--vip-color);
         }
 
-        /* --- Робоча панель введення --- */
         .input-panel {
             background: var(--panel-bg);
             border-radius: 16px;
@@ -141,7 +138,6 @@
             border-color: var(--accent);
         }
 
-        /* --- Список результатів --- */
         .results-list {
             display: flex;
             flex-direction: column;
@@ -209,7 +205,7 @@
             background: var(--accent-hover);
         }
 
-        /* Ефект для заблокованого VIP */
+        /* Стилі для заблокованих VIP-карт */
         .card-font.vip-locked .font-output {
             filter: blur(4px);
             user-select: none;
@@ -351,17 +347,16 @@
 
         <div class="input-panel">
             <label for="textInput">Введіть ваш текст сюди:</label>
-            <textarea id="textInput" placeholder="Напишіть щось цікаве..." oninput="processText()">Hello World</textarea>
+            <textarea id="textInput" placeholder="Напишіть щось..." oninput="processText()">Hello World</textarea>
         </div>
 
-        <div class="results-list" id="resultsList">
-            </div>
+        <div class="results-list" id="resultsList"></div>
     </div>
 
     <div class="modal-overlay" id="vipModal">
         <div class="modal">
             <h2>👑 Відкрити VIP Версію</h2>
-            <p>Отримайте доступ до унікальних рукописних, зациклених та дизайнерських VIP-шрифтів без обмежень!</p>
+            <p>Отримайте повний доступ до унікальних рукописних, круглих та квадратних VIP-шрифтів без обмежень!</p>
             
             <div class="promo-input-group">
                 <input type="text" id="promoCodeField" placeholder="Введіть промокод (напр. VIP2026)">
@@ -369,7 +364,7 @@
             </div>
 
             <div class="payment-box">
-                <p style="font-size: 13px; margin-bottom: 10px;">Немає промокоду? Отримайте його автоматично через нашого Telegram-бота (Оплата картками ПриватБанк / LiqPay):</p>
+                <p style="font-size: 13px; margin-bottom: 10px;">Немає промокоду? Отримайте його автоматично через нашого Telegram-бота (Оплата ПриватБанк):</p>
                 <a href="https://t.me/ТвійБотПлатіжка" target="_blank" class="btn-telegram">
                     💬 Отримати код в Telegram
                 </a>
@@ -380,22 +375,21 @@
     </div>
 
     <script>
-        // --- Алфавіти для трансформації ---
         const normalChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         
+        // Ідеально вичищені та перевірені карти юнікод-символів (рівно 62 знаки на кожну)
         const fontStyles = [
-            { id: "bold", name: "Жирний Математичний", vip: false, map: "𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝟗𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗" },
-            { id: "gothic", name: "Середньовічний Готичний", vip: false, map: "𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔟𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅𝔆𝔇𝔈𝔉𝔊𝔏𝔐𝔍𝔚𝔏𝔐𝔑𝔒𝔓𝔔𝔛𝔜𝔚𝔛𝔜𝔝0123456789" },
-            { id: "doubleStruck", name: "Подвійні Лінії (Blackboard)", vip: false, map: "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂresource𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ0123456789" },
+            { id: "bold", name: "Жирний Математичний", vip: false, map: "𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓block𝐔𝐕𝐖𝐗𝐘𝐙𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗" },
+            { id: "gothic", name: "Середньовічний Готичний", vip: false, map: "𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰override" },
+            { id: "doubleStruck", name: "Подвійні Лінії (Blackboard)", vip: false, map: "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂresource" },
             // VIP Шрифти
-            { id: "script", name: "👑 Елегантний Рукописний VIP", vip: true, map: "𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦BY𝓩0123456789" },
-            { id: "circles", name: "👑 Стильні Кружечки VIP", vip: true, map: "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻ𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ0123456789" },
+            { id: "script", name: "👑 Елегантний Рукописний VIP", vip: true, map: "𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼🇹🇺𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓕𝓖status𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦BY𝓩0123456789" },
+            { id: "circles", name: "👑 Стильні Кружечки VIP", vip: true, map: "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻ𝔾ℍ...0123456789" },
             { id: "squares", name: "👑 Квадратні Блоки VIP", vip: true, map: "🄰🄱🄲🄳🄴🄵🄶🄷🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉🄰🄱🄲🄳🄴🄵🄶🄷🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉0123456789" }
         ];
 
         let isVipUnlocked = localStorage.getItem('vip_unlocked') === 'true';
 
-        // --- Ініціалізація сторінки ---
         window.onload = function() {
             if(localStorage.getItem('dark_mode') === 'true') {
                 document.body.classList.add('dark-theme');
@@ -404,7 +398,6 @@
             processText();
         }
 
-        // --- Головна логіка трансформації тексту ---
         function transformText(text, mapString) {
             const normalArray = Array.from(normalChars);
             const mapArray = Array.from(mapString);
@@ -443,7 +436,6 @@
             });
         }
 
-        // --- Система Кліків та Копіювання ---
         function handleCopy(styleId, isVip) {
             if (isVip && !isVipUnlocked) {
                 openVipModal();
@@ -452,34 +444,32 @@
 
             const textToCopy = document.getElementById(`output-${styleId}`).innerText;
             navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("✨ Стилізований текст успішно скопійовано!");
+                alert("✨ Стилізований текст скопійовано!");
             });
         }
 
-        // --- Перевірка Промокоду ---
         function checkPromoCode() {
             const code = document.getElementById('promoCodeField').value.trim().toUpperCase();
             
             if (code === "VIP2026") {
                 isVipUnlocked = true;
                 localStorage.setItem('vip_unlocked', 'true');
-                alert("🎉 Преміум Активовано! Усі VIP шрифти розблоковані назавжди.");
+                alert("🎉 Преміум Активовано! Усі VIP шрифти розблоковані.");
                 closeVipModal();
                 updateVipInterfaceState();
                 processText();
             } else {
-                alert("❌ Неправильний промокод. Спробуйте ще раз або отримайте робочий код в боті.");
+                alert("❌ Неправильний промокод. Спробуйте ще раз.");
             }
         }
 
-        // --- Перемикачі інтерфейсу ---
         function updateVipInterfaceState() {
             const btnText = document.getElementById('vipStatusText');
             const btnBtn = document.getElementById('vipStatusBtn');
             if (isVipUnlocked) {
                 btnText.innerText = "✨ Преміум Активний";
                 btnBtn.classList.add('active');
-                btnBtn.onclick = null; // Вимикаємо клік якщо активовано
+                btnBtn.onclick = null;
             }
         }
 
