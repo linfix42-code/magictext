@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Generator | Text Stylizer</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     
     <style>
         /* Твої оригінальні стилі */
@@ -96,7 +96,7 @@
             background: #16a085;
         }
 
-        /* VIP ТЕМНА ТЕМА ПРИ АКТИВАЦІЇ */
+        /* VIP ТЕМНА ТЕМА ПРИ АКТИВАЦІЇ ПРОМОКОДУ */
         body.vip-theme { background-color: #0f172a !important; color: #f1f5f9 !important; }
         body.vip-theme .main-card, 
         body.vip-theme .font-row-card, 
@@ -118,7 +118,7 @@
     </div>
 
     <div class="nav-bar">
-        <a href="../index.html" class="back-home">⬅ Back to Home</a>
+        <a href="index.html" class="back-home">⬅ Back to Home</a>
         <div class="logo">
             <span class="logo-icon">🇹</span>
             <span class="logo-text">Text Generator</span>
@@ -181,7 +181,7 @@
         const inputField = document.getElementById('main-input');
         const container = document.getElementById('fonts-container');
 
-        // Математичні функції трансформації звичайних літер в Юнікод-стилі
+        // Функції перетворення в Юнікод
         function toGothic(text) {
             const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const gothic = "𝔞𝔟𝔔𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅𝔖𝔇𝔈𝔉𝔊𝔏𝔓𝔍𝔎𝔏𝔐𝔒𝔒𝔔𝔔𝔖𝔖𝔗𝔘𝔜𝔔𝔛𝔜𝔖";
@@ -196,11 +196,11 @@
 
         function toItalic(text) {
             const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const italic = "𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘵𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘳𝘠𝘩";
+            const italic = "𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𘘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘵𘘓𝘓𝘔𝘕𝘖𘘗𝘘𘘙𝘚𝘛𝘜𘘜𝘞𝘳𝘠𝘩";
             return text.split('').map(c => { const i = normal.indexOf(c); return i > -1 ? italic[i] : c; }).join('');
         }
 
-        // Список наших шрифтів (частина з них заблокована короною)
+        // Список шрифтів (Gothic закритий під PRO за замовчуванням)
         const styles = [
             { id: "Uppercase Bold", isPremium: false, transform: t => t.toUpperCase() },
             { id: "Italic Soft", isPremium: false, transform: t => toItalic(t) },
@@ -208,7 +208,7 @@
             { id: "Gothic Premium 👑", isPremium: true, transform: t => toGothic(t) }
         ];
 
-        // Функція створення карток шрифтів на екрані
+        // Рендеринг карток на екран
         function updateFonts() {
             const text = inputField.value || "Hello World";
             const hasPremium = localStorage.getItem('vip_design') === 'true';
@@ -240,24 +240,25 @@
         function setQuickText(t) { inputField.value = t; updateFonts(); }
         inputField.oninput = updateFonts;
 
-        // Логіка перевірки та активації промокодів
+        // Перевірка натискання кнопки активації
         document.getElementById('activate-btn').addEventListener('click', () => {
             const input = document.getElementById('promo-input').value.trim();
+            // Твої таємні коди, які розблокують сайт
             if (input === "MAX_PRO_999" || input === "COOL_LOOK_2026") {
                 localStorage.setItem('vip_design', 'true');
-                alert("👑 Повний Мега-PRO доступ успішно активовано!");
+                alert("👑 Повний Мега-PRO доступ успішно активовано! Сайт переходить на VIP-рівень.");
                 location.reload();
             } else {
                 alert("❌ Невірний промокод. Спробуй ще раз.");
             }
         });
 
-        // Запуск перевірки VIP-теми при старті
+        // Застосування темної теми, якщо PRO вже активовано
         if (localStorage.getItem('vip_design') === 'true') {
             document.body.classList.add('vip-theme');
         }
 
-        // Первинне виведення шрифтів
+        // Запуск
         updateFonts();
     </script>
 </body>
