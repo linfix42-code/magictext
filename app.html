@@ -30,7 +30,6 @@
         .quick-tags span { font-size: 13px; border: 1px solid #d1f2eb; padding: 6px 12px; border-radius: 20px; cursor: pointer; background: #fff; color: #1ea085; transition: all 0.2s; }
         .quick-tags span:hover { background: #1abc9c; color: white; }
         
-        /* Блок Активації (ТІЛЬКИ ОДИН) */
         .activation-box { display: flex; gap: 10px; margin-top: 10px; }
         .activation-input { flex: 1; padding: 12px; border: 2px solid #a3e4d7; border-radius: 12px; outline: none; font-size: 14px; }
         .btn-activate { background: #1abc9c; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; }
@@ -38,17 +37,16 @@
         .activation-desc { font-size: 12px; color: #7f8c8d; margin-top: 10px; }
         .activation-desc a { color: #1abc9c; text-decoration: none; font-weight: bold; }
         
-        /* Список стилів */
-        .style-output-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2f4f0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s; }
-        .style-output-card:hover { border-color: #1abc9c; }
+        .style-output-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2f4f0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+        .style-output-card:hover { border-color: #1abc9c; box-shadow: 0 4px 12px rgba(26, 188, 156, 0.05); }
         .style-info { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .style-name { font-weight: bold; color: #7f8c8d; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .output-text { font-size: 20px; color: #2c3e50; word-break: break-all; }
-        .btn-copy { background: #1abc9c; color: white; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .style-name { font-weight: bold; color: #7f8c8d; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .output-text { font-size: 22px; color: #2c3e50; word-break: break-all; }
+        .btn-copy { background: #1abc9c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; min-width: 110px; text-align: center; }
         .btn-copy:hover { background: #1ea085; }
         
         .vip-blur { filter: blur(3px); user-select: none; pointer-events: none; }
-        .vip-badge { color: #e74c3c; font-weight: bold; font-size: 12px; border: 1px dashed #fadbd8; padding: 4px 8px; border-radius: 6px; background: #fdf2f2; }
+        .vip-badge { color: #e74c3c; font-weight: bold; font-size: 12px; border: 1px dashed #fadbd8; padding: 6px 12px; border-radius: 6px; background: #fdf2f2; display: inline-block; }
     </style>
 </head>
 <body>
@@ -56,7 +54,7 @@
     <div class="top-ad-space">Рекламне місце (728x90 Banner Ad)</div>
 
     <div class="nav-bar">
-        <a href="index.html" class="back-home">← Назад на головну</a>
+        <a href="../index.html" class="back-home">← Назад на головну</a>
         <div class="logo">💠 Text Generator</div>
     </div>
 
@@ -65,9 +63,9 @@
             <div class="pro-tips-card">
                 <h3>✨ Корисні поради</h3>
                 <ul>
-                    <li>Копіюйте стиль одним кліком миші.</li>
+                    <li>Копіюйте будь-який стиль одним кліком миші.</li>
                     <li>PRO версія відкриває доступ до закритих дизайнерських шрифтів.</li>
-                    <li>Українські літери залишаються без змін, змінюються англійські та цифри.</li>
+                    <li>Українські літери залишаються без змін, трансформуються англійські символи та цифри.</li>
                 </ul>
             </div>
         </div>
@@ -91,7 +89,7 @@
                     <button class="btn-activate" onclick="checkPromoCode()">Активувати 👑</button>
                 </div>
                 <div class="activation-desc">
-                    Немає коду? Отримайте його миттєво в нашому <a href="https://t.me/ТвійБотПлатіжка" target="_blank">Telegram-боті</a> (Оплата через ПриватБанк).
+                    Немає коду? Отримайте його миттєво в нашому <a href="https://t.me/ТвійБотПлатіжка" target="_blank">Telegram-боті</a> (Оплата картками ПриватБанку).
                 </div>
             </div>
 
@@ -101,66 +99,85 @@
     </div>
 
     <script>
-        const normalChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        // Базові декоративні масиви, захищені від текстових багів
+        const decoMaps = {
+            circles: Array.from("ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ⓪①②③④⑤⑥⑦⑧⑨"),
+            dark_circles: Array.from("🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩0123456789"),
+            squares: Array.from("🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉0123456789"),
+            gothic: Array.from("𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅ℭ𝔇𝔈𝔉𝔊𝔋𝔌𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔𝔖𝔗𝔘𝔙𝔚𝔛𝔜𝔝0123456789")
+        };
 
-        // Масив із величезною кількістю різноманітних шрифтів (стандартні та преміум)
         const fontStyles = [
-            { id: "bold1", name: "Жирний Математичний", vip: false, map: Array.from("𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝐀𝐁𝐂𝐃𝐄block𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍block𝐎block𝐏𝐐𝐑𝐒block𝐓block𝐔𝐕𝐖block𝐗𝐘𝐙𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕block𝟖𝟗") },
-            { id: "italic1", name: "Елегантний Курсив", vip: false, map: Array.from("𝘢𝘣𝘤𝘥𝘦𝘍𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕block block block𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡0123456789") },
-            { id: "bolditalic", name: "Жирний Курсив", vip: false, map: Array.from("𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠loader𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎block𝐓𝙐𝙑𝙒𝙓𝙔𝙕0123456789") },
-            { id: "gothic", name: "Середньовічний Готичний", vip: false, map: Array.from("𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅ℭ𝔇𝔈𝔉𝔊𝔋𝔌𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔𝔖𝔗𝔘𝔙𝔚𝔛𝔜𝔝0123456789") },
-            { id: "double", name: "Подвійні Лінії (Blackboard)", vip: false, map: Array.from("𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡") },
-            { id: "monospace", name: "Моноширинний Кодер", vip: false, map: Array.from("𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝚉𝙺𝙻𝙼𝙽block block block𝙾block block block block block block block block block block block block block block block block block block block block block block block block0123456789") },
-            { id: "smallcaps", name: "Капітель (Малі Великі)", vip: false, map: Array.from("ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴblock block block block block block block block block block block block block block block block block block block block block block block block0123456789") },
-            
-            // --- VIP ПРЕМІУМ ШРИФТИ ---
-            { id: "script_vip", name: "👑 Каліграфічний Рукопис VIP", vip: true, map: Array.from("𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓤𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓨𝓩0123456789") },
-            { id: "circles_vip", name: "👑 Білі Кружечки VIP", vip: true, map: Array.from("ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ⓪①②③④⑤⑥⑦⑧⑨") },
-            { id: "dark_circles_vip", name: "👑 Чорні Кружечки VIP", vip: true, map: Array.from("🅐🅞🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅡🅨🅩🅐🅞🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅡🅨🅩block❶❷❸❹❺❻❼block block") },
-            { id: "squares_vip", name: "👑 Квадратні Кнопки VIP", vip: true, map: Array.from("🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿Hybrid🅁🅂🅃🅄🅈🅆🅇content🅪🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅪🅁🅂🅃🅄🅈🅆🅇content🅪0123456789") },
-            { id: "inverted_vip", name: "👑 Перевернутий Світ VIP", vip: true, map: Array.from("ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎzⱯᗺƆᗡƎℲ⅁HIᒋKernel videogame block block block block block block block block block block block block block block block block block block block block block block block0123456789") }
+            { id: "bold", name: "Жирний Математичний", vip: false },
+            { id: "italic", name: "Елегантний Курсив", vip: false },
+            { id: "bolditalic", name: "Жирний Курсив PRO", vip: false },
+            { id: "monospace", name: "Моноширинний Кодер", vip: false },
+            { id: "gothic", name: "Середньовічний Готичний", vip: false },
+            { id: "circles", name: "👑 Білі Кружечки VIP", vip: true },
+            { id: "dark_circles", name: "👑 Чорні Кружечки VIP", vip: true },
+            { id: "squares", name: "👑 Квадратні Кнопки VIP", vip: true }
         ];
 
         let isVipUnlocked = localStorage.getItem('vip_unlocked') === 'true';
 
-        window.onload = function() {
-            generateStyles(); 
-        };
+        window.onload = function() { generateStyles(); };
+
+        // Стовідсотково надійна функція трансформації без зсуву індексів літер
+        function convertText(text, styleId) {
+            let res = "";
+            for (let char of text) {
+                let code = char.charCodeAt(0);
+                if (styleId === 'bold') {
+                    if (char >= 'A' && char <= 'Z') res += String.fromCodePoint(0x1D400 + (code - 65));
+                    else if (char >= 'a' && char <= 'z') res += String.fromCodePoint(0x1D41A + (code - 97));
+                    else if (char >= '0' && char <= '9') res += String.fromCodePoint(0x1D7CE + (code - 48));
+                    else res += char;
+                } else if (styleId === 'italic') {
+                    if (char >= 'A' && char <= 'Z') res += String.fromCodePoint(0x1D434 + (code - 65));
+                    else if (char >= 'a' && char <= 'z') {
+                        res += (char === 'h') ? 'ℎ' : String.fromCodePoint(0x1D44E + (code - 97));
+                    } else res += char;
+                } else if (styleId === 'bolditalic') {
+                    if (char >= 'A' && char <= 'Z') res += String.fromCodePoint(0x1D468 + (code - 65));
+                    else if (char >= 'a' && char <= 'z') res += String.fromCodePoint(0x1D482 + (code - 97));
+                    else res += char;
+                } else if (styleId === 'monospace') {
+                    if (char >= 'A' && char <= 'Z') res += String.fromCodePoint(0x1D6A8 + (code - 65));
+                    else if (char >= 'a' && char <= 'z') res += String.fromCodePoint(0x1D6C2 + (code - 97));
+                    else if (char >= '0' && char <= '9') res += String.fromCodePoint(0x1D7F6 + (code - 48));
+                    else res += char;
+                } else {
+                    let idx = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".indexOf(char);
+                    if (idx !== -1 && decoMaps[styleId]) {
+                        res += decoMaps[styleId][idx] || char;
+                    } else {
+                        res += char;
+                    }
+                }
+            }
+            return res;
+        }
 
         function generateStyles() {
-            const inputText = document.getElementById('inputText').value;
+            const inputText = document.getElementById('inputText').value || "Hello";
             const container = document.getElementById('stylesContainer');
             container.innerHTML = ''; 
 
-            const textToConvert = inputText || "Hello";
-
             fontStyles.forEach(style => {
-                let convertedText = "";
-
-                for (let char of textToConvert) {
-                    let index = normalChars.indexOf(char);
-                    if (index !== -1 && style.map && style.map[index]) {
-                        convertedText += style.map[index];
-                    } else {
-                        convertedText += char; 
-                    }
-                }
-
+                const converted = convertText(inputText, style.id);
                 const isLocked = style.vip && !isVipUnlocked;
 
                 const card = document.createElement('div');
                 card.className = 'style-output-card';
-
                 card.innerHTML = `
                     <div class="style-info">
                         <span class="style-name">${style.name}</span>
-                        <div id="text-${style.id}" class="output-text ${isLocked ? 'vip-blur' : ''}">${convertedText}</div>
+                        <div id="text-${style.id}" class="output-text ${isLocked ? 'vip-blur' : ''}">${converted}</div>
                     </div>
                     <div>
                         ${isLocked ? '<span class="vip-badge">🔒 Тільки PRO</span>' : `<button class="btn-copy" onclick="copyToClipboard('${style.id}')">Копіювати</button>`}
                     </div>
                 `;
-
                 container.appendChild(card);
             });
         }
@@ -175,10 +192,11 @@
             if (!textElement) return;
 
             navigator.clipboard.writeText(textElement.innerText).then(() => {
-                const btn = textElement.closest('.style-output-card').querySelector('.btn-copy');
+                const card = textElement.closest('.style-output-card');
+                const btn = card.querySelector('.btn-copy');
                 if (btn) {
                     const orig = btn.innerText;
-                    btn.innerText = "Скопійовано! ✓";
+                    btn.innerText = "Готово! ✓";
                     btn.style.background = "#2ecc71";
                     setTimeout(() => {
                         btn.innerText = orig;
