@@ -12,7 +12,8 @@
         .top-ad-space { background: #f2f9f7; border: 1px dashed #b2e2d8; text-align: center; padding: 20px; max-width: 1100px; margin: 0 auto 20px auto; color: #7f8c8d; border-radius: 8px; }
         .ad-sub { font-size: 11px; color: #b3c3c7; margin-top: 4px; }
         .nav-bar { max-width: 1100px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; }
-        .back-home { color: #1abc9c; text-decoration: none; font-weight: bold; }
+        .back-home { color: #1abc9c; text-decoration: none; font-weight: bold; transition: color 0.2s; }
+        .back-home:hover { color: #1ea085; }
         .logo { display: flex; align-items: center; gap: 8px; }
         .logo-icon { background: #1abc9c; color: white; padding: 5px 10px; border-radius: 8px; font-weight: bold; }
         .logo-text { font-size: 18px; font-weight: bold; color: #2c3e50; }
@@ -78,7 +79,7 @@
     </div>
 
     <div class="nav-bar">
-        <a href="#" class="back-home">← Back to Home</a>
+        <a href="./" class="back-home">← Back to Home</a>
         <div class="logo">
             <span class="logo-icon">T</span>
             <span class="logo-text">Text Generator</span>
@@ -144,16 +145,16 @@
         // Алфавіт для трансформації англійських літер та цифр
         const normalChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        // Словник Unicode шрифтів (захищений через Array.from від пошкодження спецсимволів)
+        // Словник Unicode шрифтів
         const fontStyles = [
             { id: "bold", name: "Жирний Математичний", vip: false, cssClass: "fx-bold", map: Array.from("𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫ｓ𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝐀𝐁Ｃ𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗") },
-            { id: "italic", name: "Елегантний Курсив", vip: false, cssClass: "fx-italic", map: Array.from("𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞 breakdown𝘠𝘡0123456789") },
+            { id: "italic", name: "Елегантний Курсив", vip: false, cssClass: "fx-italic", map: Array.from("𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫κ𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘠𝘡0123456789") },
             { id: "gothic", name: "Середньовічний Готичний", vip: false, cssClass: "fx-gothic", map: Array.from("𝔞𝔟𝔔𝔡𝔢𝔣𝔤𝔥𝔦𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅𝔆𝔇𝔈𝔉𝔊𝔋𝔌𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔𝔖𝔗𝔘𝔙𝔚𝔛𝔜𝔝0123456789") },
             { id: "doublestruck", name: "Подвійні Лінії (Blackboard)", vip: false, cssClass: "fx-monospace", map: Array.from("𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡") },
             
             // --- VIP Шрифти ---
-            { id: "script", name: "👑 Елегантний Рукописний VIP", vip: true, cssClass: "fx-italic", map: Array.from("𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹q𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓤𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝 his𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦BY𝓩0123456789") },
-            { id: "circles", name: "👑 Стильні Кружечки VIP", vip: true, cssClass: "fx-bold", map: Array.from("ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻ RecordsⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ⓪①②③④⑤⑥⑦⑧⑨") }
+            { id: "script", name: "👑 Елегантний Рукописний VIP", vip: true, cssClass: "fx-italic", map: Array.from("𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹q𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃𝓐𝓑𝓒𝓓𝓔𝓤𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓨𝓩0123456789") },
+            { id: "circles", name: "👑 Стильні Кружечки VIP", vip: true, cssClass: "fx-bold", map: Array.from("ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻⒼⒽⒾ WintersⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ⓪①②③④⑤⑥⑦⑧⑨") }
         ];
 
         // Перевірка VIP статусу в браузері
@@ -161,7 +162,7 @@
 
         // Ініціалізація сторінки при завантаженні
         window.onload = function() {
-            document.getElementById('stylesCountBadge').innerText = `${fontStyles.length} Styles Available`;
+            document.getElementById('stylesCountBadge').innerText = `${fontStyles.length} STYLES AVAILABLE`;
             generateStyles(); 
         };
 
@@ -169,30 +170,24 @@
         function generateStyles() {
             const inputText = document.getElementById('inputText').value;
             const container = document.getElementById('stylesContainer');
-            container.innerHTML = ''; // Очищення перед оновленням
+            container.innerHTML = ''; 
 
-            // Текст-заглушка, якщо поле пусте
             const textToConvert = inputText || "Hello World";
 
             fontStyles.forEach(style => {
                 let convertedText = "";
 
-                // Посимвольна трансформація тексту
                 for (let char of textToConvert) {
                     let index = normalChars.indexOf(char);
-                    // Якщо символ є в англійському алфавіті — міняємо на Unicode-арт
                     if (index !== -1 && style.map && style.map[index]) {
                         convertedText += style.map[index];
                     } else {
-                        // Якщо це українська літера або пробіл — залишаємо як є
-                        convertedText += char;
+                        convertedText += char; // Зберігає українські літери без змін тексту
                     }
                 }
 
-                // Перевірка на блокування VIP елементів
                 const isLocked = style.vip && !isVipUnlocked;
 
-                // Створення HTML картки для шрифту
                 const card = document.createElement('div');
                 card.className = 'style-output-card';
 
@@ -208,45 +203,4 @@
             });
         }
 
-        // Швидке вставлення тегів (кнопок під textarea)
-        function insertQuickText(text) {
-            document.getElementById('inputText').value = text;
-            generateStyles();
-        }
-
-        // Функція копіювання тексту в буфер обміну
-        function copyToClipboard(styleId) {
-            const textElement = document.getElementById(`text-${styleId}`);
-            if (!textElement) return;
-
-            navigator.clipboard.writeText(textElement.innerText).then(() => {
-                const copyBtn = textElement.previousElementSibling.querySelector('.btn-copy');
-                if (copyBtn) {
-                    const originalText = copyBtn.innerText;
-                    copyBtn.innerText = "Copied! ✓";
-                    copyBtn.style.background = "#2ecc71";
-                    setTimeout(() => {
-                        copyBtn.innerText = originalText;
-                        copyBtn.style.background = "#1abc9c";
-                    }, 1500);
-                }
-            }).catch(err => {
-                alert("Не вдалося скопіювати текст: " + err);
-            });
-        }
-
-        // Функція перевірки промокоду
-        function checkPromoCode() {
-            const code = document.getElementById('promoCodeField').value.trim();
-            if (code.toLowerCase() === 'vip2026') {
-                localStorage.setItem('vip_unlocked', 'true');
-                isVipUnlocked = true;
-                alert('👑 PRO-доступ успішно активовано! Усі VIP-шрифти розблоковані.');
-                generateStyles();
-            } else {
-                alert('❌ Неправильний промокод. Спробуйте ще раз або отримайте код у нашому боті.');
-            }
-        }
-    </script>
-</body>
-</html>
+        // Швидке вставлення тексту
